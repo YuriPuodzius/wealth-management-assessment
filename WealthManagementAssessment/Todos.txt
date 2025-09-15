@@ -1,0 +1,48 @@
+1 formatar codigo para que os caminhos para encontrar arquivo transactions.csv e investments.csv
+estejam dentro de um appsettings.config
+
+
+2 Sugestao
+
+RealState, Stock, Fond nao poderiam ser classes ? cada uma com seu metodo ENGINE para calcular 
+o tamanho do patrimonio? 
+
+3 na verdade o preenchimento dessas listas abaixo talvez não seja necessário pq o objetivo eh calcular
+o somatório de RealState, Stock e Fonds e não os dados do csv
+
+//preenchimento desnecessario
+List<Investment> selectedInvestments = new List<Investment>();
+List<Transaction> selectedEstate = new List<Transaction>();
+List<Transaction> selectedBuilding = new List<Transaction>();
+
+
+4 como modelar a aplicacao de forma que o arquivo csv seja lido apenas uma unica vez !!!
+
+
+5 o que eh melhor para performance do código. 
+5.1 transformar toda a string do csv em data antes de comparar OU
+5.2 transformar o parâmetro data do usuário em string 
+
+6 verifiquei que as datas que estão faltando no arquivo quotes.csv são finais de semana e feriado. 
+Talvez outras datas tbm não importa. 
+Logo, para saber o patrimônio em acoes vou usar sempre a ultima data com cotação valida da acao.
+
+
+7.stocks Pensar em algoritmo que encontra a menor distancia quando nao existir data de cotacao!!
+se a ultima data de cotacao disponivel foi muito antiga. Tipo 1 ano. Mas a data futura esta mais perto. 
+Nao deveria entao usar a data futura ao inves da data antiga?
+
+----------------------
+
+Ações realizadas:
+
+•	Refatoração de camadas (layering) alinhada ao Clean Architecture/DDD
+•	Modularização por camadas (Domain / Application / Infrastructure / Presentation)
+•	Refatoração de pastas e namespaces (separação de responsabilidades)
+
+Explicação das camadas:
+•	Domain: Entidades/Enums/Contracts e, se quiser, implementações puras de StockService, RealEstateService, FondsService como domain services.
+•	Application: AssetManagementService, PortfolioService (orquestração), modelos de retorno (InvestorBalanceResult), Configuration.
+•	Infrastructure: PortfolioRepository, InvestmentCsvSource/JsonSource/ApiSource.•	Presentation: Program.cs (console) + appSettings.Environments.
+   
+
