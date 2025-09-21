@@ -33,25 +33,24 @@ Detailed architecture explanation is in [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 WealthManagementAssessment/
 ├── Application/
-│ ├── Configuration/ # App settings and configs
-│ ├── Models/ # Result/DTO objects
-│ └── Orchestration/ # Orchestrators (AssetManagement, Portfolio)
-│
+│   ├── Configuration/       # App settings and configs
+│   ├── Models/              # Result/DTO objects
+│   └── Orchestration/       # Orchestrators (AssetManagement, Portfolio)
 ├── Domain/
-│ ├── Contracts/ # Interfaces (Repos, Services, Orchestration)
-│ ├── Entities/ # Core business objects (Investment, Investor, Quote, Transaction)
-│ ├── Enums/ # Enum definitions
-│ └── Services/ # Domain service interfaces
-│
+│   ├── Contracts/
+│   │   ├── Repositories/    # Interfaces (Repos)
+│   │   ├── Services/        # Domain service interfaces
+│   │   └── Orchestration/   # Interfaces (Orchestrators)
+│   ├── Entities/            # Core business objects (Investment, Investor, Quote, Transaction)
+│   └── Enums/               # Enum definitions
 ├── Infrastructure/
-│ ├── DataProviders/ # CSV / JSON / API input providers
-│ └── Repository/ # Repository implementations
-│
-├── Workload/ # Input datasets (CSV)
-│
-├── Program.cs # Application entrypoint
-├── appsettings.json # Main config
-└── appsettings.*.json # Env configs
+│   ├── DataProviders/       # CSV / JSON / API input providers
+│   └── Repository/          # Repository implementations
+├── Workload/                # Input datasets (CSV)
+├── Program.cs               # Application entrypoint
+├── appsettings.json         # Main config
+└── appsettings.*.json       # Env configs
+
 
 
 ---
