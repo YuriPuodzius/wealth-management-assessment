@@ -102,8 +102,8 @@ WealthManagementAssessment/
 ├─ appsettings.Production.json
 └─ appsettings.Staging.json
    (Environment configs)
-
 ```
+</details>
 
 ---
 
