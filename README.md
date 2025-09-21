@@ -31,27 +31,79 @@ Detailed architecture explanation is in [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ## 📂 Project Structure
 
+<details>
+  <summary><b>📂 Project Structure</b></summary>
+
+```text
 WealthManagementAssessment/
-├── Application/
-│   ├── Configuration/       # App settings and configs
-│   ├── Models/              # Result/DTO objects
-│   └── Orchestration/       # Orchestrators (AssetManagement, Portfolio)
-├── Domain/
-│   ├── Contracts/
-│   │   ├── Repositories/    # Interfaces (Repos)
-│   │   ├── Services/        # Domain service interfaces
-│   │   └── Orchestration/   # Interfaces (Orchestrators)
-│   ├── Entities/            # Core business objects (Investment, Investor, Quote, Transaction)
-│   └── Enums/               # Enum definitions
-├── Infrastructure/
-│   ├── DataProviders/       # CSV / JSON / API input providers
-│   └── Repository/          # Repository implementations
-├── Workload/                # Input datasets (CSV)
-├── Program.cs               # Application entrypoint
-├── appsettings.json         # Main config
-└── appsettings.*.json       # Env configs
+├─ Application/
+│  ├─ Configuration/
+│  │  └─ AppConfig.cs
+│  │     (App settings and configs)
+│  ├─ Models/
+│  │  └─ InvestorBalanceResult.cs
+│  │     (DTO/result objects)
+│  └─ Orchestration/
+│     ├─ Interfaces/
+│     │  ├─ IAssetManagementService.cs
+│     │  └─ IPortfolioService.cs
+│     ├─ AssetManagementService.cs
+│     └─ PortfolioService.cs
+│        (Orchestrators / Application layer entrypoints)
+├─ Domain/
+│  ├─ Contracts/
+│  │  └─ Repositories/
+│  │     ├─ IFondsRepository.cs
+│  │     ├─ IInvestmentDataSource.cs
+│  │     ├─ IPortfolioRepository.cs
+│  │     ├─ IQuoteDataSource.cs
+│  │     ├─ IRealEstateRepository.cs
+│  │     ├─ IStockRepository.cs
+│  │     └─ ITransactionDataSource.cs
+│        (Repository interfaces / abstractions)
+│  ├─ Services/
+│  │  ├─ IFondsService.cs
+│  │  ├─ IRealEstateService.cs
+│  │  └─ IStockService.cs
+│        (Domain services - pure calculations)
+│  ├─ Entities/
+│  │  ├─ Investment.cs
+│  │  ├─ Investor.cs
+│  │  ├─ Quote.cs
+│  │  └─ Transaction.cs
+│        (Core business entities)
+│  └─ Enums/
+│     ├─ InvestmentDataSourceTypeEnum.cs
+│     ├─ InvestmentTypeEnum.cs
+│     ├─ InvestorProfileEnum.cs
+│     └─ TransactionTypeEnum.cs
+│        (Context enums / type definitions)
+├─ Infrastructure/
+│  ├─ DataProviders/
+│  │  ├─ InvestmentApiSource.cs
+│  │  ├─ InvestmentCsvSource.cs
+│  │  └─ InvestmentJsonSource.cs
+│        (CSV / JSON / API input providers)
+│  └─ Repository/
+│     └─ PortfolioRepository.cs
+│        (Repository implementations)
+├─ Workload/
+│  ├─ Investments.csv
+│  ├─ InvestmentsT.csv
+│  ├─ Quotes.csv
+│  ├─ QuotesT.csv
+│  ├─ Transactions.csv
+│  └─ TransactionsT.csv
+│        (Sample dataset files)
+├─ Program.cs
+│  (Application entrypoint)
+├─ appsettings.json
+├─ appsettings.Development.json
+├─ appsettings.Production.json
+└─ appsettings.Staging.json
+   (Environment configs)
 
-
+```
 
 ---
 
