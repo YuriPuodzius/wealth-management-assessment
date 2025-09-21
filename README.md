@@ -1,29 +1,88 @@
 # Wealth Management Assessment
 
-A **.NET application** for investment portfolio evaluation, designed with **DDD (Domain-Driven Design)**, **Clean Architecture**, and **Dependency Injection**.
+This project simulates an **investment portfolio analysis system**, allowing balance queries, investor profiling, and portfolio performance insights.  
+It is built with **C# .NET**, applying clean architecture principles, layered design, and strong separation of concerns.
 
-## 🚀 Purpose
-The system simulates an **investment portfolio** that can include multiple asset types (stocks, funds, real estate, etc.), processing calculations for profitability, allocation, and investor balance.
+---
 
-## ✨ Highlights
-- **Clean and decoupled architecture**: clear separation between Application, Domain, and Infrastructure.  
-- **Central orchestration**: `AssetManagementService` coordinates the use cases.  
-- **Aggregate Root (Portfolio)**: centralizes data composition and ensures consistency.  
-- **Specialized Domain Services**: calculation-only classes per asset type, with no repository access.  
-- **Pluggable data sources**: support for CSV, JSON, and API through **interfaces + DI**.  
-- **Extensibility**: easy to add new assets (e.g., Crypto) or new data providers.  
-- **Testability**: domain layer is independent of infrastructure, enabling fast and reliable unit testing.  
+## 🚀 Features
 
-## 🛠 Tech Stack
-- .NET 8 (C#)  
-- Native Dependency Injection  
-- Config via `appsettings.*.json`  
+- ✅ Check total balance by investor
+- ✅ Check balance per asset type (Real Estate, Stocks, Funds)
+- ✅ Identify investor profile (Conservative, Moderate, Aggressive)
+- ✅ Aggregate balances across all investors
+- ✅ Analyze brokerage profile based on investor distribution
+- ✅ Performance analysis with execution time metrics
 
-## ▶️ Run the Project
-1. Clone the repository  
-2. Adjust `appsettings.*.json` if needed  
-3. Use the sample **CSV files** from the `Workload` folder  
-4. Run the project with:
+---
+
+## 🏗️ Architecture
+
+The project follows a **Clean/DDD-inspired layered architecture**:
+
+- **Domain** → Core business logic (Entities, Enums, Contracts).
+- **Application** → Orchestration layer (use cases, configuration, models).
+- **Infrastructure** → Data providers and repository implementations.
+- **Workload** → Input dataset files (CSV) with investments, quotes, and transactions.
+
+Detailed architecture explanation is in [`ARCHITECTURE.md`](ARCHITECTURE.md).
+
+---
+
+## 📂 Project Structure
+
+WealthManagementAssessment/
+├── Application/
+│ ├── Configuration/ # App settings and configs
+│ ├── Models/ # Result/DTO objects
+│ └── Orchestration/ # Orchestrators (AssetManagement, Portfolio)
+│
+├── Domain/
+│ ├── Contracts/ # Interfaces (Repos, Services, Orchestration)
+│ ├── Entities/ # Core business objects (Investment, Investor, Quote, Transaction)
+│ ├── Enums/ # Enum definitions
+│ └── Services/ # Domain service interfaces
+│
+├── Infrastructure/
+│ ├── DataProviders/ # CSV / JSON / API input providers
+│ └── Repository/ # Repository implementations
+│
+├── Workload/ # Input datasets (CSV)
+│
+├── Program.cs # Application entrypoint
+├── appsettings.json # Main config
+└── appsettings.*.json # Env configs
+
+
+---
+
+## ⚙️ Requirements
+
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download)
+- Rider / Visual Studio / VS Code
+
+---
+
+## ▶️ Running
 
 ```bash
-dotnet run
+dotnet run --project WealthManagementAssessment
+
+1 - Check total balance invested by investor
+2 - Check investment balance by asset type per investor
+3 - Check investor profile (Conservative / Moderate / Aggressive)
+4 - Check total balance across all investors
+5 - Check brokerage profile based on investors
+6 - Exit
+
+[1] Checking balance for investor Investor90 at 2025-09-15...
+
+Performance Analysis:
+⏱️ HydrateFondsInvestorsPortfolios executed in 25,34 seconds (0,42 minutes).
+
+✅ Balance analysis completed in 26,70 seconds.
+
+🏢 Real Estate balance: 62.199.104,00 Euros.
+📈 Stock balance: 1.347.195,06 Euros.
+💰 Fonds balance: 943.709.182,95 Euros.
+💼 Total wallet value: 1.007.255.482,01 Euros.
