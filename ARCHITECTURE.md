@@ -1,96 +1,90 @@
-# Architecture — Wealth Management Assessment
-
-## Overview
-The project follows **Clean Architecture** and **DDD** principles, with a clear separation of **Application**, **Domain**, and **Infrastructure** layers.  
-Its main responsibility is to **compose and evaluate investment portfolios**, while keeping the domain independent from technical persistence details.
 
 ---
 
-## Layers
+## 📘 ARCHITECTURE.md
 
-### 1) Application
-- **Orchestration**:  
-  - `AssetManagementService` → Orchestrator class, responsible for coordinating use cases.  
-  - `PortfolioService` → Entry point for portfolio-related operations.  
-- **Configuration**: `AppConfig` centralizes configuration parameters.  
-- **Models**: Data transfer objects, such as `InvestorBalanceResult`.
+```markdown
+# Wealth Management Assessment - Architecture
 
-### 2) Domain
-- **Aggregate Root**:  
-  - `Portfolio` → central entity that manages the composition of investor assets.  
-- **Entities**: `Investment`, `Investor`, `Quote`, `Transaction`.  
-- **Services**:  
-  - `StockService`, `RealEstateService`, `FondsService`.  
-  - Perform only **calculations** (no repository access).  
-- **Contracts**:  
-  - Interfaces for repositories and data sources (`IStockRepository`, `ITransactionDataSource`, etc.).  
-  - Ensure the domain layer remains independent from infrastructure.  
-- **Enums**: Context descriptors (`InvestmentType`, `TransactionType`, etc.).
-
-### 3) Infrastructure
-- **DataProviders**: Implementations for different data sources.  
-  - `InvestmentCsvSource`, `InvestmentJsonSource`, `InvestmentApiSource`.  
-- **Repository**:  
-  - `PortfolioRepository` implements repository contracts.  
-- **Workload**: CSV files simulating real-world data sources.
+This document describes the **architecture and design decisions** behind the Wealth Management Assessment project.
 
 ---
 
-## Project Tree
-```text
-WealthManagementAssessment
-├─ Application
-│  ├─ Configuration
-│  │  └─ AppConfig.cs
-│  ├─ Models
-│  │  └─ InvestorBalanceResult.cs
-│  └─ Orchestration
-│     ├─ Interfaces
-│     │  ├─ IAssetManagementService.cs
-│     │  └─ IPortfolioService.cs
-│     ├─ AssetManagementService.cs
-│     └─ PortfolioService.cs
-├─ Domain
-│  ├─ Contracts
-│  │  ├─ Repositories
-│  │  │  ├─ IFondsRepository.cs
-│  │  │  ├─ IInvestmentDataSource.cs
-│  │  │  ├─ IPortfolioRepository.cs
-│  │  │  ├─ IQuoteDataSource.cs
-│  │  │  ├─ IRealEstateRepository.cs
-│  │  │  ├─ IStockRepository.cs
-│  │  │  └─ ITransactionDataSource.cs
-│  ├─ Services
-│  │  ├─ IFondsService.cs
-│  │  ├─ IRealEstateService.cs
-│  │  └─ IStockService.cs
-│  ├─ Entities
-│  │  ├─ Investment.cs
-│  │  ├─ Investor.cs
-│  │  ├─ Quote.cs
-│  │  └─ Transaction.cs
-│  └─ Enums
-│     ├─ InvestmentDataSourceTypeEnum.cs
-│     ├─ InvestmentTypeEnum.cs
-│     ├─ InvestorProfileEnum.cs
-│     └─ TransactionTypeEnum.cs
-├─ Infrastructure
-│  ├─ DataProviders
-│  │  ├─ InvestmentApiSource.cs
-│  │  ├─ InvestmentCsvSource.cs
-│  │  └─ InvestmentJsonSource.cs
-│  └─ Repository
-│     └─ PortfolioRepository.cs
-├─ Workload
-│  ├─ Investments.csv
-│  ├─ InvestmentsT.csv
-│  ├─ Quotes.csv
-│  ├─ QuotesT.csv
-│  ├─ Transactions.csv
-│  └─ TransactionsT.csv
-├─ appsettings.json
-├─ appsettings.Development.json
-├─ appsettings.Production.json
-├─ appsettings.Staging.json
-├─ Program.cs
-└─ Todos.txt
+## 🏛️ Architectural Style
+
+The project is inspired by **Clean Architecture** and **DDD principles**:
+
+- **Domain Layer** → Pure business rules (Entities, Enums, Contracts).
+- **Application Layer** → Use cases and orchestration (Asset management, Portfolio orchestration).
+- **Infrastructure Layer** → Data access implementations (CSV/JSON providers, repositories).
+- **Presentation Layer** → Console application (Program.cs).
+
+---
+
+## 📂 Layer Responsibilities
+
+### 1. Domain
+- **Entities**: Core models (`Investment`, `Investor`, `Quote`, `Transaction`).
+- **Enums**: Investment types, transaction types, investor profile definitions.
+- **Contracts**: Interfaces that define repository and service contracts.
+- **Services**: Domain-level service interfaces (e.g. `IStockService`).
+
+---
+
+### 2. Application
+- **Orchestration**: Coordinates services (e.g. `AssetManagementService`, `PortfolioService`).
+- **Configuration**: AppConfig and environment settings.
+- **Models**: Transport objects (e.g. `InvestorBalanceResult`).
+
+---
+
+### 3. Infrastructure
+- **DataProviders**: Input adapters (CSV, JSON, API).
+- **Repository**: Implements repositories that interact with `DataProviders`.
+
+---
+
+### 4. Presentation
+- **Console Application** (Program.cs):
+  - Provides the interactive menu.
+  - Handles user inputs.
+  - Calls orchestration services.
+  - Displays formatted results.
+
+---
+
+## 🔄 Data Flow
+
+1. **Investor request** (menu) triggers an orchestration service.
+2. **Application layer** fetches investments via repository.
+3. **Repositories** load data from **CSV/JSON providers** (infrastructure).
+4. **Services** calculate balances per asset type.
+5. **Results** are aggregated and returned as `InvestorBalanceResult`.
+6. **Console** prints results with execution time.
+
+---
+
+## 🧠 Design Considerations
+
+- **Caching**: Fonds hydration uses cache for performance optimization.
+- **Performance metrics**: Stopwatch prints execution times per step.
+- **Extensibility**: Can easily replace `CSV source` with `API` or `Database`.
+- **Testability**: Interfaces and layered design make it suitable for unit tests.
+
+---
+
+## 📊 Example Flow
+
+Investor90 → PortfolioService → AssetManagementService
+↳ PortfolioRepository → Transactions (CSV)
+↳ FondsService + Hydration
+↳ StockService + Quotes
+↳ RealEstateService
+
+
+---
+
+## ✅ Conclusion
+
+The project demonstrates **modular design**, **clear separation of concerns**, and **performance-awareness**.  
+It can be extended to real-world investment platforms or serve as a reference for DDD + Clean Architecture applications in .NET.
